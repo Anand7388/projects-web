@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excalidraw — Page Navigation Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #6C5CE7;
+    --purple-light: #a29bfe;
+    --purple-xlight: #f0eeff;
+    --purple-dark: #4834d4;
+    --ink: #1a1a2e;
+    --ink-mid: #2d2d44;
+    --muted: #6b6b8a;
+    --muted-light: #9898b3;
+    --surface: #ffffff;
+    --surface-2: #f7f7fc;
+    --surface-3: #eeeef8;
+    --border: #e2e2f0;
+    --green: #00b894;
+    --green-light: #e8faf6;
+    --amber: #fdcb6e;
+    --amber-light: #fff9ee;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface-2);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    background: var(--ink);
+    color: white;
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,92,231,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 10%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(162,155,254,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(108,92,231,0.25);
+    border: 1px solid rgba(108,92,231,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--purple-light);
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span {
+    color: var(--purple-light);
+  }
+
+  .hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  /* ─── Layout ─── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ─── Section label ─── */
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Step cards ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 26px;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .step:nth-child(1) { animation-delay: 0.05s; }
+  .step:nth-child(2) { animation-delay: 0.1s; }
+  .step:nth-child(3) { animation-delay: 0.15s; }
+  .step:nth-child(4) { animation-delay: 0.2s; }
+  .step:nth-child(5) { animation-delay: 0.25s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step:hover {
+    border-color: var(--purple-light);
+    box-shadow: 0 4px 24px rgba(108,92,231,0.08);
+  }
+
+  .step-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: var(--purple-xlight);
+    color: var(--purple);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .step-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .step-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.75;
+    padding-left: 48px;
+  }
+
+  /* ─── Keyboard keys ─── */
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    color: white;
+    border-radius: 6px;
+    padding: 2px 9px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    margin: 0 2px;
+    vertical-align: middle;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+    letter-spacing: 0;
+  }
+
+  /* ─── Visual demo row ─── */
+  .demo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .frame-card {
+    background: var(--surface-2);
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .frame-card.active {
+    border-color: var(--purple);
+    border-style: solid;
+    background: var(--purple-xlight);
+  }
+
+  .frame-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .frame-card.active .frame-name {
+    color: var(--purple-dark);
+  }
+
+  .btn-sim {
+    display: inline-block;
+    background: var(--purple);
+    color: white;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .arrow-flow {
+    font-size: 20px;
+    color: var(--purple-light);
+  }
+
+  /* ─── Tip box ─── */
+  .tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--purple-xlight);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--purple-dark);
+    line-height: 1.6;
+  }
+
+  .tip::before {
+    content: '💡';
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ─── Options grid ─── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .option-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .option-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--purple);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .option-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── Bonus card ─── */
+  .bonus-card {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 28px 30px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+    animation: fadeUp 0.4s 0.3s ease both;
+  }
+
+  .bonus-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,92,231,0.4) 0%, transparent 70%);
+  }
+
+  .bonus-badge {
+    display: inline-block;
+    background: rgba(108,92,231,0.3);
+    border: 1px solid rgba(162,155,254,0.3);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--purple-light);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .bonus-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .bonus-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 480px;
+  }
+
+  .keys-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .key-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .key-pill kbd {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+
+  /* ─── Quick ref ─── */
+  .quick-ref {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp 0.4s 0.35s ease both;
+  }
+
+  .quick-ref-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    background: var(--surface-2);
+  }
+
+  .ref-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .ref-row:last-child { border-bottom: none; }
+
+  .ref-action {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .ref-keys {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .ref-keys span {
+    font-size: 11px;
+    color: var(--muted-light);
+  }
+
+  @media (max-width: 560px) {
+    .hero { padding: 40px 24px 36px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .demo-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">Excalidraw Guide</div>
+  <h1>Navigate from<br><span>page to page</span></h1>
+  <p>Use Frames as pages, then link between them using element links — no account needed.</p>
+</div>
+
+<div class="container">
+
+  <div class="section-label">Step-by-step walkthrough</div>
+
+  <div class="steps">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-top">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Create your frames</div>
+          <div class="step-subtitle">Each frame = one page</div>
+        </div>
+      </div>
+      <div class="step-body">
+        Press <kbd>F</kbd> to activate the Frame tool, then drag on the canvas to draw a frame. Repeat to create a second frame. Double-click the frame name to rename it (e.g. "Home", "About").
+        <div class="demo-row">
+          <div class="frame-card">
+            <div class="frame-name">Frame 1 — Home</div>
+            Your content here
+          </div>
+          <div class="arrow-flow">→</div>
+          <div class="frame-card">
+            <div class="frame-name">Frame 2 — About</div>
+            Your content here
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-top">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Add a button on Frame 1</div>
+          <div class="step-subtitle">This becomes the clickable link</div>
+        </div>
+      </div>
+      <div class="step-body">
+        Press <kbd>R</kbd> to draw a rectangle inside Frame 1. Double-click it and type a label like "Go to Page 2 →". This shape will be your navigation button.
+        <div class="demo-row">
+          <div class="frame-card">
+            <div class="frame-name">Frame 1</div>
+            <div class="btn-sim">Go to Page 2 →</div>
+          </div>
+        </div>
+        <div class="tip">Style your button however you like — fill color, rounded corners, any shape works as a link.</div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-top">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Select the button &amp; open link dialog</div>
+          <div class="step-subtitle">Ctrl/⌘ + K shortcut</div>
+        </div>
+      </div>
+      <div class="step-body">
+        Click to select your button shape, then press <kbd>Ctrl</kbd> + <kbd>K</kbd> on Windows or <kbd>⌘</kbd> + <kbd>K</kbd> on Mac. A link input box will appear above the element.
+        <div class="tip">Alternatively: right-click the element → <strong>Add link</strong> from the context menu.</div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-top">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Link to Frame 2</div>
+          <div class="step-subtitle">Internal element or external URL</div>
+        </div>
+      </div>
+      <div class="step-body">
+        In the link dialog you have two options:
+        <div class="options-grid">
+          <div class="option-box">
+            <div class="option-label">Option A — Internal</div>
+            <div class="option-desc">Click the canvas icon in the dialog, then click on Frame 2. The view will jump to Frame 2 when clicked.</div>
+          </div>
+          <div class="option-box">
+            <div class="option-label">Option B — External URL</div>
+            <div class="option-desc">Paste any URL and press Enter. Clicking the element opens that page in a new browser tab.</div>
+          </div>
+        </div>
+        <div class="tip">A small chain-link icon appears on your element once the link is attached successfully.</div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-top">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">Click to navigate</div>
+          <div class="step-subtitle">Hold Ctrl/⌘ and click</div>
+        </div>
+      </div>
+      <div class="step-body">
+        Hold <kbd>Ctrl</kbd> (Windows) or <kbd>⌘</kbd> (Mac) and click the linked element. The canvas will smoothly pan and zoom to show Frame 2.
+        <div class="demo-row">
+          <div class="frame-card">
+            <div class="frame-name">Frame 1</div>
+            <div class="btn-sim">🔗 Go to Page 2</div>
+          </div>
+          <div class="arrow-flow">⌘ + click</div>
+          <div class="frame-card active">
+            <div class="frame-name">Frame 2 ✓</div>
+            Now viewing
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bonus: Presentation mode -->
+  <div class="section-label">Bonus tip</div>
+
+  <div class="bonus-card">
+    <div class="bonus-badge">Presentation mode</div>
+    <h3>Present frames like slides</h3>
+    <p>Click <strong>Present</strong> in the bottom-right corner of Excalidraw to enter full-screen slideshow mode. Use arrow keys to move between all frames in order — no clicking links required.</p>
+    <div class="keys-row">
+      <div class="key-pill"><kbd>←</kbd> Previous frame</div>
+      <div class="key-pill"><kbd>→</kbd> Next frame</div>
+      <div class="key-pill"><kbd>Esc</kbd> Exit presentation</div>
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="section-label">Quick reference</div>
+
+  <div class="quick-ref">
+    <div class="quick-ref-header">Keyboard shortcuts</div>
+    <div class="ref-row">
+      <div class="ref-action">Create a new frame</div>
+      <div class="ref-keys"><kbd>F</kbd></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Add / edit a link on selected element</div>
+      <div class="ref-keys"><kbd>Ctrl</kbd> <span>+</span> <kbd>K</kbd></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Click a link to navigate</div>
+      <div class="ref-keys"><kbd>Ctrl</kbd> <span>+</span> <span>Click</span></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Duplicate a frame</div>
+      <div class="ref-keys"><kbd>Ctrl</kbd> <span>+</span> <kbd>Shift</kbd> <span>+</span> <kbd>D</kbd></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Search text on canvas</div>
+      <div class="ref-keys"><kbd>Ctrl</kbd> <span>+</span> <kbd>F</kbd></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Open command palette</div>
+      <div class="ref-keys"><kbd>Ctrl</kbd> <span>+</span> <kbd>/</kbd></div>
+    </div>
+    <div class="ref-row">
+      <div class="ref-action">Zoom to fit all elements</div>
+      <div class="ref-keys"><kbd>Shift</kbd> <span>+</span> <kbd>1</kbd></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
